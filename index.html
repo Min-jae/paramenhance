@@ -1,0 +1,321 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Parameter enhancement for MELP speech codec in noisy communication environment
+	</title>
+</head>
+<body>
+
+<article>
+    <header>
+        <h1>Parameter enhancement for MELP speech codec in noisy communication environment</h1>
+    </header>
+</article>
+
+<div><b>Paper:</b> Submitted to Interspeech 2019</div>
+<div><b>Authors:</b> Min-Jae Hwang and Hong-Goo Kang</div>
+<div><b>Abstract:</b> In this paper, we propose a deep learning (DL)-based parameter enhancement method for the mixed excitation linear prediction (MELP) speech codec in noisy communication environment.
+Unlike conventional speech enhancement modules that are designed to obtain clean speech signal by removing noise components before performing speech codec processing, the proposed method directly enhances codec parameters either in the encoder or decoder side.
+Since the proposed method is implemented by a small-size network with no time-frequency analysis and synthesis modules required in the conventional enhancement systems, its computational complexity is very low.
+By enhancing the noise corrupted codec parameters with the proposed DL framework, we achieved much simpler and faster enhancement system than the conventional time-frequency mask-based speech enhancement methods; whereas their quality performance was not too different.	
+</div>
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;margin:0px auto;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
+.tg .tg-uys7{border-color:inherit;text-align:center}
+.tg .tg-u5t2{font-weight:bold;font-size:14px;border-color:inherit;text-align:center}
+.tg .tg-r9mt{background-color:#f9f9f9;font-weight:bold;font-size:14px;border-color:inherit;text-align:center}
+.tg .tg-aj9k{background-color:#f9f9f9;border-color:inherit;text-align:center}
+</style>
+
+<h3> <br/></h3>
+<h3 style="text-align:center">But such cases were, in the past, unusual.</h3>
+<table class="tg">
+  <tr>
+    <th class="tg-u5t2" rowspan="3">Noise<br>type</th>
+    <th class="tg-u5t2" rowspan="3">SNR <br>(dB)</th>
+    <th class="tg-u5t2" colspan="2">Recorded</th>
+    <th class="tg-u5t2" colspan="2">No enhance.</th>
+    <th class="tg-u5t2" colspan="3">Enhanced</th>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Clean</td>
+    <td class="tg-r9mt" rowspan="2">Noisy</td>
+    <td class="tg-u5t2" rowspan="2">Clean</td>
+    <td class="tg-r9mt" rowspan="2">Noisy</td>
+    <td class="tg-u5t2" rowspan="2">IRM</td>
+    <td class="tg-r9mt" colspan="2">Param</td>
+  </tr>
+  <tr>
+    <td class="tg-r9mt">Enc</td>
+    <td class="tg-u5t2">Dec</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Volvo</td>
+    <td class="tg-u5t2">10</td>
+	<td class="tg-uys7" rowspan="6">
+		<audio controls style="width: 140px;"> <source src="wav/ref_clean/FDHC0_SI929.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7" rowspan="6">
+		<audio controls style="width: 140px;"> <source src="wav/as_clean/FDHC0_SI929.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.volvo.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.volvo.5.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">White</td>
+    <td class="tg-u5t2">10</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.white.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.white.5.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Babble</td>
+    <td class="tg-u5t2">10</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.babble.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI929.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI929.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI929.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI929.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI929.babble.5.wav"> </audio>
+	</td>
+  </tr>
+</table>
+
+<h3> <br/></h3>
+<h3 style="text-align:center">Visually, these approximated what he was feeling within himself.</h3>
+<table class="tg">
+  <tr>
+    <th class="tg-u5t2" rowspan="3">Noise<br>type</th>
+    <th class="tg-u5t2" rowspan="3">SNR <br>(dB)</th>
+    <th class="tg-u5t2" colspan="2">Recorded</th>
+    <th class="tg-u5t2" colspan="2">No enhance.</th>
+    <th class="tg-u5t2" colspan="3">Enhanced</th>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Clean</td>
+    <td class="tg-r9mt" rowspan="2">Noisy</td>
+    <td class="tg-u5t2" rowspan="2">Clean</td>
+    <td class="tg-r9mt" rowspan="2">Noisy</td>
+    <td class="tg-u5t2" rowspan="2">IRM</td>
+    <td class="tg-r9mt" colspan="2">Param</td>
+  </tr>
+  <tr>
+    <td class="tg-r9mt">Enc</td>
+    <td class="tg-u5t2">Dec</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Volvo</td>
+    <td class="tg-u5t2">10</td>
+	<td class="tg-uys7" rowspan="6">
+		<audio controls style="width: 140px;"> <source src="wav/ref_clean/FDHC0_SI1559.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7" rowspan="6">
+		<audio controls style="width: 140px;"> <source src="wav/as_clean/FDHC0_SI1559.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.volvo.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.volvo.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.volvo.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.volvo.5.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">White</td>
+    <td class="tg-u5t2">10</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.white.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.white.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.white.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.white.5.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2" rowspan="2">Babble</td>
+    <td class="tg-u5t2">10</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-aj9k">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.babble.10.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.babble.10.wav"> </audio>
+	</td>
+  </tr>
+  <tr>
+    <td class="tg-u5t2">5</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/ref_noisy/FDHC0_SI1559.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/as_noisy/FDHC0_SI1559.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/irm/FDHC0_SI1559.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_enc/FDHC0_SI1559.babble.5.wav"> </audio>
+	</td>
+    <td class="tg-uys7">
+		<audio controls style="width: 140px;"> <source src="wav/param_dec/FDHC0_SI1559.babble.5.wav"> </audio>
+	</td>
+  </tr>
+</table>
+
+<h3> <br/></h3>
+<h3> <br/></h3>
+
+</body>
+
+
+</html>
